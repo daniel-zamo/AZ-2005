@@ -1,0 +1,55 @@
+import os
+import asyncio
+from dotenv import load_dotenv
+
+from semantic_kernel import Kernel
+from semantic_kernel.connectors.ai.open_ai import AzureChatCompletion, AzureChatPromptExecutionSettings
+from semantic_kernel.contents import ChatHistory
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+
+from plugins.NativePlugins.flight_booking_plugin import FlightBookingPlugin
+
+load_dotenv()
+
+async def main():
+    kernel = Kernel()
+
+    chat_service = AzureChatCompletion(
+        deployment_name=os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME"),
+        endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+        api_key=os.getenv("AZURE_OPENAI_API_KEY")
+    )
+    kernel.add_service(chat_service)
+
+    # Registro del plugin
+    kernel.add_plugin(FlightBookingPlugin(), plugin_name="FlightBooking")
+
+    # Configuramos el comportamiento AUTO
+    settings = AzureChatPromptExecutionSettings(
+        function_choice_behavior=FunctionChoiceBehavior.Auto()
+    )
+
+    history = ChatHistory()
+    # TIP DE EXPERTO: Añadimos un mensaje de sistema para que la IA sepa que es un agente de viajes
+    history.add_system_message("You are a professional travel agent. Use the provided tools to search and book flights. If a user asks for a flight, ALWAYS call the search_flights tool.")
+
+    async def chat(user_input):
+        print(f"\nUser: {user_input}")
+        history.add_user_message(user_input)
+
+        # Aquí ocurre la magia del Function Calling
+        response = await chat_service.get_chat_message_content(
+            chat_history=history,
+            kernel=kernel,
+            settings=settings
+        )
+        
+        print(f"Assistant: {response}")
+        history.add_assistant_message(str(response))
+
+    # Ejecución
+    await chat("Find me a flight to Tokyo on the 2025-01-19")
+    await chat("I want to book the flight with ID 1") # Sé específico para probar
+
+if __name__ == "__main__":
+    asyncio.run(main())

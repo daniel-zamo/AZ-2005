@@ -1,0 +1,26 @@
+[
+  {
+    "Id": 1,
+    "Airline": "Air Japan",
+    "Destination": "Tokyo",
+    "DepartureDate": "2025-01-19",
+    "Price": 1200,
+    "IsBooked": true
+  },
+  {
+    "Id": 3,
+    "Airline": "ACME",
+    "Destination": "Bs. As.",
+    "DepartureDate": "2025-01-19",
+    "Price": 1200,
+    "IsBooked": false
+  },
+  {
+    "Id": 2,
+    "Airline": "Iberia",
+    "Destination": "Madrid",
+    "DepartureDate": "2025-02-10",
+    "Price": 800,
+    "IsBooked": true
+  }
+]
