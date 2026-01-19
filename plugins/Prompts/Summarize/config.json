@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "description": "Resume un texto de forma concisa y profesional.",
+  "execution_settings": {
+    "default": {
+      "max_tokens": 500,
+      "temperature": 0.3
+    }
+  },
+  "input_variables": [
+    {
+      "name": "input",
+      "description": "El texto que se desea resumir",
+      "required": true
+    }
+  ]
+}

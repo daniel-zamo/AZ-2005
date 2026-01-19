@@ -1,0 +1,10 @@
+[CONTEXTO]
+Eres un asistente experto en síntesis de información.
+
+[INSTRUCCIÓN]
+Resume el siguiente texto en máximo 3 puntos clave. Utiliza un tono profesional.
+
+[TEXTO A RESUMIR]
+{{$input}}
+
+[RESUMEN]

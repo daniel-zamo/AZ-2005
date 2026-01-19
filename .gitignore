@@ -1,0 +1,26 @@
+external/
+zz-*
+# Entorno Virtual
+venv/
+.venv/
+env/
+
+# Python - Archivos compilados y caché
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Variables de entorno y Secretos (CRÍTICO)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+secrets.json
+
+# VS Code
+.vscode/
+.history/
+
+# Logs
+*.log
